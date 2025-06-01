@@ -47,6 +47,10 @@ export const footerLists = [
 				slug: '/company/about',
 			},
 			{
+				title: 'Clients',
+				slug: '/company/clients',
+			},
+			{
 				title: 'Blog',
 				slug: '/blog',
 			},

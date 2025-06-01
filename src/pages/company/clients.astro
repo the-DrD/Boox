@@ -13,27 +13,27 @@ import Layout from '../../layouts/Page.astro';
 import TextAndImageHero from '../../components/sections/heros/TextAndImageHero.astro';
 
 const seo = {
-	title: 'Landing Page #1 | Astro Odyssey Theme',
-	description: 'Landing Page #1 | Astro Odyssey Theme',
+	title: 'Little Hunter| Petfood Startup uses Klaviyo for Fast Growth!',
+	description: 'How Little Hunter grew from $850 to $220,000 MRR in 4 months',
 };
 ---
 
 <AnnouncementBar
-	text="Read Our Latest Blog Post"
-	href="/blog/posts/remote-work-mental-health/"
+	text="New Retention Dashboard to Grow Your MRR"
+	href="https://retentiondash.com/"
 	slot="announcement-bar"
 />
 <Layout {seo}>
 	<TextAndImageHero reversed>
 		<div slot="text-container">
-			<h1>Don't Reinvent the Wheel</h1>
-			<p>Use Odyssey Theme to jumpstart your company's marketing website.</p>
+			<h1>Little Hunter| Petfood Startup uses Klaviyo for Fast Growth!</h1>
+			<p>How Little Hunter grew from $850 to $220,000 MRR in 4 months</p>
 		</div>
 		<div slot="btns-container">
 			<Button href="/theme/get-started" customIcon
-				>Get Started <Fragment slot="icon">
+				>Get Started <span slot="icon">
 					<Icon name="ic:baseline-chevron-right" />
-				</Fragment></Button
+				</span></Button
 			>
 		</div>
 		<picture slot="image-container">
@@ -130,9 +130,9 @@ const seo = {
 			business or startup.
 		</p>
 		<Button href="/theme/get-started" customIcon
-			>Get Started <Fragment slot="icon">
+			>Get Started <span slot="icon">
 				<Icon name="ic:baseline-chevron-right" />
-			</Fragment></Button
+			</span></Button
 		>
 	</CtaCardSection>
 </Layout>
