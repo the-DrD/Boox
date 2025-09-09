@@ -1,0 +1,47 @@
+---
+import { Container } from '@components/odyssey-theme';
+import Layout from './Page.astro';
+
+const { content: { title, description, publishDate, featuredImage, solutions, tags, segments } } = Astro.props;
+
+const seo = { title, description, publishDate, image: featuredImage };
+---
+<Layout seo={seo}>
+  <div class="industry-header__container">
+    <h1>{title}</h1>
+    {publishDate && <p class="industry-layout__date"><time><em>{publishDate}</em></time></p>}
+    {featuredImage && <img class="industry-layout__img" src={featuredImage} alt={title} />}
+    {segments && segments.length > 0 && (
+      <ul class="industry-segments__list">
+        {segments.map(seg => (<li class="industry-segments__item">{seg}</li>))}
+      </ul>
+    )}
+  </div>
+  <Container narrow>
+    <article id="industry-article">
+      <slot />
+    </article>
+    {solutions && solutions.length > 0 && (
+      <section class="related__section">
+        <h2>Relevant Solutions</h2>
+        <ul class="related__list">
+          {solutions.map(sol => (
+            <li><a href={`/solutions/solution/${sol.toLowerCase().replace(/\s+/g,'-')}`}>{sol}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </Container>
+</Layout>
+
+<style>
+  #industry-article { padding-bottom: 3rem; }
+  .industry-header__container { max-width: var(--theme-blog-post-header-width); margin: 1rem auto; padding: var(--container-padding); }
+  .industry-layout__img { margin: 0 auto 1rem auto; border-radius: var(--theme-shape-radius); }
+  .industry-layout__date { margin-bottom: 1rem; opacity: 0.84; }
+  .industry-segments__list { list-style: none; padding: 0; margin: .5rem 0 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .industry-segments__item { font-size: var(--font-size-sm); text-transform: uppercase; opacity: .8; }
+  .related__section { margin-top: 2rem; }
+  .related__list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .75rem; }
+  .related__list a { text-decoration: none; font-size: var(--font-size-sm); }
+</style>

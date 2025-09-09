@@ -1,0 +1,23 @@
+---
+const { currentPage = 1, totalPages = 1, basePath = '' } = Astro.props;
+function pageHref(p) { return p === 1 ? basePath : `${basePath}/page/${p}`; }
+---
+{totalPages > 1 && (
+  <nav class="pagination" aria-label="Pagination Navigation">
+    <ul>
+      {currentPage > 1 && <li><a href={pageHref(currentPage - 1)} rel="prev">Prev</a></li>}
+      {Array.from({ length: totalPages }).map((_, i) => {
+        const p = i + 1;
+        const active = p === currentPage;
+        return <li class={active ? 'active' : ''}><a aria-current={active ? 'page' : undefined} href={pageHref(p)}>{p}</a></li>;
+      })}
+      {currentPage < totalPages && <li><a href={pageHref(currentPage + 1)} rel="next">Next</a></li>}
+    </ul>
+  </nav>
+)}
+<style>
+  .pagination ul { list-style:none; margin:2rem 0; padding:0; display:flex; gap:.5rem; flex-wrap:wrap; }
+  .pagination a { text-decoration:none; padding:.4rem .7rem; border:1px solid var(--theme-surface-1); border-radius:var(--theme-shape-radius); font-size:var(--font-size-sm); }
+  .pagination li.active a { background: var(--theme-primary); color: var(--theme-on-primary); border-color: var(--theme-primary); }
+  .pagination a:hover { border-color: var(--theme-primary); }
+</style>

@@ -1,0 +1,12 @@
+---
+import SolutionCard from './SolutionCard.astro';
+const { solutions } = Astro.props;
+---
+<ul class="solutions-list">
+  {solutions?.map(sol => <SolutionCard solution={sol} />)}
+</ul>
+
+<style>
+  .solutions-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  @media (max-width: 768px) { .solutions-list { grid-template-columns: 1fr; } }
+</style>

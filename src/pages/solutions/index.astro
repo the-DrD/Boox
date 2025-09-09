@@ -1,0 +1,31 @@
+---
+import { Container, TextCardSection } from '@components/odyssey-theme';
+import Layout from '../../layouts/Page.astro';
+import { normalizeContentEntries } from '../../utils/content.js';
+import SolutionsList from '../../components/solutions/SolutionsList.astro';
+
+const rawSolutions = await Astro.glob('./solution/*.mdx');
+const solutions = normalizeContentEntries(rawSolutions, { mapExtra: (fm) => ({ industries: fm.industries || [] }) });
+
+const seo = { title: 'Solutions | Odyssey Theme', description: 'Our catalog of product and service solutions.' };
+---
+<Layout {seo}>
+  <Container>
+    <TextCardSection>
+      <h1>Solutions</h1>
+      <p>Explore our solutions designed to accelerate adoption and streamline operations.</p>
+    </TextCardSection>
+  {solutions.length > 0 ? (
+      <section class="solutions-listing__section">
+        <h2>All Solutions</h2>
+    <SolutionsList solutions={solutions} />
+      </section>
+    ) : (
+      <p>No solutions have been published yet.</p>
+    )}
+  </Container>
+</Layout>
+
+<style>
+  .solutions-listing__section { margin: var(--section-margin) auto; }
+</style>

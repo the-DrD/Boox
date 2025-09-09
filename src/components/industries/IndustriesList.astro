@@ -1,0 +1,12 @@
+---
+import IndustryCard from './IndustryCard.astro';
+const { industries } = Astro.props;
+---
+<ul class="industries-list">
+  {industries?.map(ind => <IndustryCard industry={ind} />)}
+</ul>
+
+<style>
+  .industries-list { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  @media (max-width: 768px) { .industries-list { grid-template-columns: 1fr; } }
+</style>

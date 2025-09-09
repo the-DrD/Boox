@@ -1,0 +1,76 @@
+---
+import { parse, isBefore } from 'date-fns';
+import { paginate } from '../../../utils/paginate.js';
+import Pagination from '../../../components/core/Pagination.astro';
+import {
+  Container,
+  TextCardSection,
+  BlogPostsList,
+} from '@components/odyssey-theme';
+import Layout from '../../../layouts/Page.astro';
+import NewsletterForm from '../../../components/forms/NewsletterForm.astro';
+import config from '../../../../theme.config.js';
+
+export async function getStaticPaths() {
+  const entries = await Astro.glob('../posts/*.mdx');
+  const posts = entries
+    .map(({ frontmatter, url }) => ({
+      title: frontmatter.title,
+      description: frontmatter.description,
+      authors: frontmatter.authors,
+      publishDate: parse(frontmatter.publishDate, 'MMMM d, yyyy', new Date()),
+      featuredImage: frontmatter.featuredImage,
+      excerpt: frontmatter.excerpt,
+      href: url,
+    }))
+    .sort((a, b) => {
+      if (isBefore(a.publishDate, b.publishDate)) return 1;
+      if (isBefore(b.publishDate, a.publishDate)) return -1;
+      return 0;
+    });
+  const pager = paginate(posts, config.pagination.pageSize || 10);
+  return Array.from({ length: pager.totalPages }).map((_, i) => ({ params: { page: String(i + 1) } }));
+}
+
+const { page } = Astro.params;
+const currentPage = parseInt(page, 10) || 1;
+const allEntries = await Astro.glob('../posts/*.mdx');
+const sorted = allEntries
+  .map(({ frontmatter, url }) => ({
+    title: frontmatter.title,
+    description: frontmatter.description,
+    authors: frontmatter.authors,
+    publishDate: parse(frontmatter.publishDate, 'MMMM d, yyyy', new Date()),
+    featuredImage: frontmatter.featuredImage,
+    excerpt: frontmatter.excerpt,
+    href: url,
+  }))
+  .sort((a, b) => {
+    if (isBefore(a.publishDate, b.publishDate)) return 1;
+    if (isBefore(b.publishDate, a.publishDate)) return -1;
+    return 0;
+  });
+
+const pageSize = config.pagination.pageSize || 10;
+const pager = paginate(sorted, pageSize);
+const posts = pager.slice(currentPage);
+const seo = { title: `Blog – Page ${currentPage}`, description: `Blog page ${currentPage}` };
+---
+<Layout {seo}>
+  <Container>
+    <TextCardSection>
+      <h1>Odyssey Blog (Page {currentPage})</h1>
+      <p>View our blog to stay up to date on the latest news about our business. Want updates? Join our newsletter!</p>
+      <NewsletterForm />
+    </TextCardSection>
+    <section class="blog-posts-list__section">
+      <h2>Recent Posts</h2>
+      <BlogPostsList posts={posts} />
+      <Pagination currentPage={currentPage} totalPages={pager.totalPages} basePath="/blog" />
+    </section>
+  </Container>
+</Layout>
+
+<style>
+  .blog-posts-list__section { margin: var(--section-margin) auto; }
+</style>

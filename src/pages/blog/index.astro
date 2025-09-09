@@ -1,5 +1,8 @@
 ---
 import { parse, isBefore } from 'date-fns';
+import { paginate } from '../../utils/paginate.js';
+import Pagination from '../../components/core/Pagination.astro';
+import config from '../../../theme.config.js';
 import {
 	Container,
 	TextCardSection,
@@ -8,8 +11,8 @@ import {
 import Layout from '../../layouts/Page.astro';
 import NewsletterForm from '../../components/forms/NewsletterForm.astro';
 
-const posts = await Astro.glob('./posts/*.mdx').then(posts =>
-	posts
+const allPosts = await Astro.glob('./posts/*.mdx').then(entries =>
+	entries
 		.map(({ frontmatter, url }) => ({
 			title: frontmatter.title,
 			description: frontmatter.description,
@@ -25,6 +28,10 @@ const posts = await Astro.glob('./posts/*.mdx').then(posts =>
 			return 0;
 		})
 );
+
+const pageSize = config.pagination.pageSize || 10;
+const pager = paginate(allPosts, pageSize);
+const posts = pager.slice(1); // first page
 
 const seo = {
 	title: 'Blog | Astro Odyssey Theme',
@@ -45,6 +52,7 @@ const seo = {
 		<section class="blog-posts-list__section">
 			<h2>Recent Posts</h2>
 			<BlogPostsList posts={posts} />
+			<Pagination currentPage={1} totalPages={pager.totalPages} basePath="/blog" />
 		</section>
 	</Container>
 </Layout>

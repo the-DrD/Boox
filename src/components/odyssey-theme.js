@@ -26,6 +26,14 @@ export { default as CtaCardSection } from './sections/CtaCardSection.astro';
 export { default as BlogPostsList } from './blog/BlogPostsList.astro';
 export { default as BlogPostPreview } from './blog/BlogPostPreview.astro';
 
+// Solutions
+export { default as SolutionsList } from './solutions/SolutionsList.astro';
+export { default as SolutionCard } from './solutions/SolutionCard.astro';
+
+// Industries
+export { default as IndustriesList } from './industries/IndustriesList.astro';
+export { default as IndustryCard } from './industries/IndustryCard.astro';
+
 // Form Fields
 export { default as FormInput } from './form-fields/FormInput.astro';
 export { default as FormTextarea } from './form-fields/FormTextarea.astro';

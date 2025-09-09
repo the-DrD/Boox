@@ -1,0 +1,24 @@
+---
+const { industry } = Astro.props;
+const { title, excerpt, featuredImage, href, solutions } = industry;
+---
+<li class="industry-card">
+  <a href={href} class="industry-card__link">
+    {featuredImage && <img src={featuredImage} alt={title} loading="lazy" class="industry-card__img" />}
+    <h3 class="industry-card__title">{title}</h3>
+    {excerpt && <p class="industry-card__excerpt">{excerpt}</p>}
+    {solutions && solutions.length > 0 && (
+      <p class="industry-card__solutions-count">{solutions.length} solution{solutions.length === 1 ? '' : 's'}</p>
+    )}
+  </a>
+</li>
+
+<style>
+  .industry-card { list-style: none; margin: 0; padding: 0; }
+  .industry-card__link { display: block; text-decoration: none; color: inherit; border: 1px solid var(--theme-surface-1); padding: 1rem; border-radius: var(--theme-shape-radius); transition: border-color 120ms linear; }
+  .industry-card__link:hover { border-color: var(--theme-primary); }
+  .industry-card__img { width: 100%; height: auto; border-radius: var(--theme-shape-radius); margin-bottom: .75rem; }
+  .industry-card__title { margin: 0 0 .5rem; }
+  .industry-card__excerpt { margin: 0 0 .5rem; font-size: var(--font-size-sm); opacity: .84; }
+  .industry-card__solutions-count { margin: 0; font-size: var(--font-size-xs); text-transform: uppercase; opacity: .72; }
+</style>
